@@ -1,0 +1,3 @@
+requests
+feedparser
+pywin32

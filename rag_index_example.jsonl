@@ -1,0 +1,4 @@
+{"ticket_id": "HIST-2001", "issue_family": "valuation_gap", "summary": "Ecart de valorisation résolu après contrôle des positions valorisées", "resolution_category": "positions_issue"}
+{"ticket_id": "HIST-2002", "issue_family": "performance_issue", "summary": "Variation de performance expliquée par un PNL incorrect", "resolution_category": "performance_recalc"}
+{"ticket_id": "HIST-2003", "issue_family": "rappro_break", "summary": "Rappro break résolu par intégration d'un flux cash manquant", "resolution_category": "cash_flow_issue"}
+{"ticket_id": "HIST-2004", "issue_family": "oid_issue", "summary": "Calcul OID corrigé après ajout de la date de valorisation", "resolution_category": "missing_information"}
