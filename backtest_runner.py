@@ -1,5 +1,6 @@
 from agent import run_analysis_agent
 from classifier import classify_ticket
+import config
 from jira_source import load_jsonl_tickets
 from llm import call_ollama
 from metrics import compute_backtest_metrics, save_metrics
@@ -7,7 +8,7 @@ from rag import retrieve_similar_tickets
 from report_builder import build_level1_summary
 from scope_filter import load_portfolio_reference, run_scope_filter
 from storage import save_jsonl
-
+from datetime import datetime
 
 def run_backtest(config):
     portfolio_reference = load_portfolio_reference(config.portfolio_reference_path)
@@ -76,13 +77,17 @@ def run_backtest(config):
 
         if config.max_tickets and i >= config.max_tickets:
             break
+    time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    output_file = config.backtest_output_file.replace(".jsonl", f"_{time_stamp}.jsonl")
+    metrics_file = config.backtest_output_file.replace(".jsonl", f"_{time_stamp}_metrics.json")
 
     if batch_buffer:
-        save_jsonl(config.backtest_output_file, batch_buffer, append=True)
+        save_jsonl(output_file, batch_buffer, append=True)
 
     metrics = compute_backtest_metrics(results)
-    metrics_path = config.backtest_output_file.replace(".jsonl", "_metrics.json")
+    metrics_path = metrics_file
     save_metrics(metrics_path, metrics)
 
-    print(f"Résultats écrits dans {config.backtest_output_file}")
+    print(f"Résultats écrits dans {output_file}")
     print(f"Métriques écrites dans {metrics_path}")

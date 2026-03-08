@@ -1,0 +1,20 @@
+portfolio_code,fund_name,aliases,scope
+PF001,Mandat Pierre 3,mandat pierre 3|pierre 3|mandat p3,peres
+PF002,Fonds Alpha PE,fonds alpha pe|alpha pe|alpha private equity,peres
+PF003,Infrastructure Growth I,infra growth|infra growth i,peres
+PF004,Private Debt Europe,private debt europe|pde fund,peres
+PF005,Global Secondary Fund,secondary fund|gsf,peres
+PF006,Real Estate Value Add,re value add|real estate va,peres
+PF007,Energy Transition PE,energy transition|et pe,peres
+PF008,Digital Growth Capital,digital growth|dgc fund,peres
+PF009,Healthcare Private Equity,healthcare pe|hcp equity,peres
+PF010,Emerging Markets PE,em pe|emerging markets pe,peres
+UC001,Fonds Delta UCITS,fonds delta|delta ucits,ucits
+UC002,European Equity UCITS,eu equity ucits|ee ucits,ucits
+UC003,Global Bond UCITS,global bond ucits|gb ucits,ucits
+UC004,Balanced Allocation UCITS,balanced ucits|ba ucits,ucits
+INS001,Institutional Bond Fund,bond fund|institutional bond fund,institutional
+INS002,Insurance Liability Portfolio,insurance liability|ilp,institutional
+INS003,Pension Fixed Income,pension fi|pension fixed income,institutional
+INS004,Sovereign Debt Mandate,sovereign debt|sd mandate,institutional
+INS005,Corporate Credit Mandate,corporate credit|cc mandate,institutional
