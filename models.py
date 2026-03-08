@@ -108,6 +108,7 @@ class SimilarTicket:
 
 @dataclass
 class AgentFinalReport:
+    model: str
     ticket_id: str
     status: str
     scope: str

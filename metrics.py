@@ -15,6 +15,7 @@ def compute_backtest_metrics(result_rows):
     avg_elapsed = sum(elapsed_values) / len(elapsed_values) if elapsed_values else 0.0
 
     return {
+        "model": result_rows[0].get("model", "unknown") if result_rows else "unknown",
         "total_tickets": total,
         "status_counts": dict(status_counter),
         "issue_counts": dict(issue_counter),

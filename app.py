@@ -14,12 +14,12 @@ def parse_args():
     parser.add_argument("--max-steps", type=int, default=4)
     parser.add_argument("--debug", action="store_true")
 
-    parser.add_argument("--backtest-input-file", default="")
-    parser.add_argument("--backtest-output-file", default="backtest_results.jsonl")
+    parser.add_argument("--backtest-input-file", default="backtest_input/jira_backtest_example.jsonl")
+    parser.add_argument("--backtest-output-file", default="backtest_output/backtest_results.jsonl")
     parser.add_argument("--backtest-batch-size", type=int, default=20)
     parser.add_argument("--max-tickets", type=int, default=None)
 
-    parser.add_argument("--portfolio-reference-path", default="portfolio_reference.csv")
+    parser.add_argument("--portfolio-reference-path", default="backtest_input/portfolio_reference.csv")
 
     parser.add_argument("--use-rag", action="store_true")
     parser.add_argument("--rag-index-path", default="rag_index.jsonl")

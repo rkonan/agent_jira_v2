@@ -23,7 +23,7 @@ def _build_agent_system_prompt(scope: str, issue_family: str, entities, similar_
     )
 
 
-def consolidate_report(ticket: Ticket, scope: str, steps, similar_tickets, config, elapsed_seconds: float) -> AgentFinalReport:
+def consolidate_report(ticket: Ticket, scope: str, classification,steps, similar_tickets, config, elapsed_seconds: float) -> AgentFinalReport:
     findings = []
     key_data = {}
     checks_run = []
@@ -46,11 +46,13 @@ def consolidate_report(ticket: Ticket, scope: str, steps, similar_tickets, confi
         if confidence_rank.get(result.confidence, 1) > confidence_rank.get(max_confidence, 1):
             max_confidence = result.confidence
 
-    issue_type = issue_types[-1] if issue_types else "unknown"
+    #issue_type = issue_types[-1] if issue_types else "unknown"
+    issue_type = classification.issue_family or "unknown"
     status = "need_human_review" if missing_information else "level_1_done"
     summary = "Analyse niveau 1 partielle, des informations manquent." if missing_information else "Analyse niveau 1 réalisée."
 
     return AgentFinalReport(
+        model=config.model_name,
         ticket_id=ticket.ticket_id,
         status=status,
         scope=scope,
@@ -112,6 +114,7 @@ def run_analysis_agent(ticket: Ticket, scope_decision, entities, classification,
             "tool_calls": tool_calls,
         })
 
+
         for tool_call in tool_calls:
             tool_name = tool_call["function"]["name"]
             arguments = tool_call["function"]["arguments"]
@@ -130,5 +133,63 @@ def run_analysis_agent(ticket: Ticket, scope_decision, entities, classification,
                 "content": json.dumps(result.to_dict(), ensure_ascii=False),
             })
 
+            # Exécuter directement les sous-checks recommandés sans repasser par le LLM
+            for next_tool_name in result.recommended_next_tools:
+                next_args = dict(arguments)
+
+                next_signature = (
+                    next_tool_name,
+                    json.dumps(next_args, sort_keys=True, ensure_ascii=False)
+                )
+                if next_signature in seen_calls:
+                    continue
+                seen_calls.add(next_signature)
+
+                next_result = run_check(next_tool_name, next_args)
+                steps.append(
+                    AgentStep(
+                        tool_name=next_tool_name,
+                        arguments=next_args,
+                        result=next_result,
+                    )
+                )
+
+                messages.append({
+                    "role": "tool",
+                    "name": next_tool_name,
+                    "content": json.dumps(next_result.to_dict(), ensure_ascii=False),
+                })
+
+
+        # for tool_call in tool_calls:
+        #     tool_name = tool_call["function"]["name"]
+        #     arguments = tool_call["function"]["arguments"]
+
+        #     signature = (tool_name, json.dumps(arguments, sort_keys=True, ensure_ascii=False))
+        #     if signature in seen_calls:
+        #         continue
+        #     seen_calls.add(signature)
+
+        #     result = run_check(tool_name, arguments)
+        #     recommended_next_tools=result.recommended_next_tools
+        #     steps.append(AgentStep(tool_name=tool_name, arguments=arguments, result=result))
+
+        #     messages.append({
+        #         "role": "tool",
+        #         "name": tool_name,
+        #         "content": json.dumps(result.to_dict(), ensure_ascii=False),
+        #     })
+        #     if recommended_next_tools:
+        #         for tool_name in recommended_next_tools:
+        #             result = run_check(tool_name, arguments)
+        #             steps.append(AgentStep(tool_name=tool_name, arguments=arguments, result=result))
+        #             messages.append({
+        #         "role": "tool",
+        #         "name": tool_name,
+        #         "content": json.dumps(result.to_dict(), ensure_ascii=False),
+        #     })
+             
+             
+
     elapsed = time.perf_counter() - start
-    return consolidate_report(ticket, scope_decision.scope, steps, similar_tickets, config, elapsed)
+    return consolidate_report(ticket, scope_decision.scope, classification, steps, similar_tickets, config, elapsed)

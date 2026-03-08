@@ -1,3 +1,6 @@
+import sys
+
+from pathlib import Path
 from agent import run_analysis_agent
 from classifier import classify_ticket
 import config
@@ -9,6 +12,12 @@ from report_builder import build_level1_summary
 from scope_filter import load_portfolio_reference, run_scope_filter
 from storage import save_jsonl
 from datetime import datetime
+
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.append(str(ROOT_DIR))
+
 
 def run_backtest(config):
     portfolio_reference = load_portfolio_reference(config.portfolio_reference_path)

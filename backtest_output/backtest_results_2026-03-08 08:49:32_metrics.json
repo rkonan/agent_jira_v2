@@ -1,0 +1,11 @@
+{
+  "model": "qwen2.5:latest",
+  "total_tickets": 1,
+  "status_counts": {
+    "level_1_done": 1
+  },
+  "issue_counts": {
+    "performance_issue": 1
+  },
+  "average_elapsed_seconds": 34.684
+}

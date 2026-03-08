@@ -1,0 +1,17 @@
+{
+  "model": "qwen2.5:latest",
+  "total_tickets": 5,
+  "status_counts": {
+    "level_1_done": 1,
+    "action_request": 1,
+    "out_of_scope": 2,
+    "need_human_review": 1
+  },
+  "issue_counts": {
+    "valuation_gap": 1,
+    "performance_issue": 1,
+    "unknown": 2,
+    "oid_issue": 1
+  },
+  "average_elapsed_seconds": 25.616
+}
