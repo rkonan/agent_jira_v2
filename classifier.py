@@ -12,6 +12,9 @@ def _extract_json(text: str) -> dict:
     return json.loads(match.group(0))
 
 
+
+
+
 def classify_ticket(ticket: Ticket, entities, config, call_ollama_fn) -> TicketClassification:
     enriched_text = (
         f"{ticket.ticket_text}\n\n"

@@ -8,15 +8,18 @@ class Ticket:
     summary: str
     description: str
     comments: List[str] = field(default_factory=list)
+    labels: List[str] = field(default_factory=list)
     status: str = ""
     resolution: str = ""
 
     @property
     def ticket_text(self) -> str:
         comments_text = "\n".join(self.comments) if self.comments else ""
+        labels_text = "\n".join(self.labels) if self.labels else ""
         return (
             f"Objet: {self.summary}\n\n"
             f"Description:\n{self.description}\n\n"
+            f"Labels:\n{labels_text}\n\n"
             f"Commentaires:\n{comments_text}"
         ).strip()
 
@@ -45,6 +48,7 @@ class TicketEntities:
     raw_hints: List[str] = field(default_factory=list)
     confidence: str = "medium"
     reason: str = ""
+    scope: str = "" #peres, non_peres, unknown
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)

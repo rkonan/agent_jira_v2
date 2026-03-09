@@ -5,8 +5,8 @@ from pathlib import Path
 # =========================
 # 1. CONFIG
 # =========================
-INPUT_JSONL = "backtest_results.jsonl"
-OUTPUT_EXCEL = "backtest_analysis.xlsx"
+INPUT_JSONL = "backtest_output/backtest_results_2026-03-08 09:35:53.jsonl"
+OUTPUT_EXCEL = "backtest_output/backtest_analysis.xlsx"
 
 # =========================
 # 2. LOAD JSONL

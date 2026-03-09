@@ -20,12 +20,17 @@ def extract_entities_regex(ticket: Ticket) -> TicketEntities:
     text = ticket.ticket_text
     portfolio_codes = re.findall(r"\b[A-Z]{2,4}\d{2,}\b", text)
     dates = re.findall(r"\b\d{4}-\d{2}-\d{2}\b", text)
+    domain="peres" if any(ticket.labels and ("peres" in label.lower() or "hybrid" in label.lower()) for label in ticket.labels) else "unknown"
+    
     return TicketEntities(
         portfolio_codes=list(dict.fromkeys(portfolio_codes)),
         valuation_dates=list(dict.fromkeys(dates)),
+        scope=domain,
         confidence="high" if portfolio_codes else "low",
         reason="Extraction regex"
     )
+
+
 
 
 def _extract_json(text: str) -> dict:
@@ -59,6 +64,23 @@ def extract_entities_llm(ticket: Ticket, config, call_ollama_fn) -> TicketEntiti
 
 
 def resolve_scope(entities: TicketEntities, portfolio_reference: List[Dict[str, str]]) -> ScopeDecision:
+    
+    if entities.scope == "peres":
+        for code in entities.portfolio_codes:
+                for row in portfolio_reference:
+                    if row.get("portfolio_code", "").lower() == code.lower():
+                    
+                        return ScopeDecision(
+                            in_scope=True,
+                            scope=entities.scope,
+                        matched_portfolio_code=row.get("portfolio_code"),
+                        matched_fund_name=row.get("fund_name"),
+                        match_method="exact_code",
+                        confidence="high",
+                        reason=f"Code portefeuille reconnu: {code}",
+                    )
+
+
     for code in entities.portfolio_codes:
         for row in portfolio_reference:
             if row.get("portfolio_code", "").lower() == code.lower():
@@ -113,6 +135,7 @@ def resolve_scope(entities: TicketEntities, portfolio_reference: List[Dict[str, 
 
 
 def run_scope_filter(ticket: Ticket, config, call_ollama_fn, portfolio_reference: List[Dict[str, str]]):
+
     entities = extract_entities_regex(ticket)
     if not entities.portfolio_codes:
         llm_entities = extract_entities_llm(ticket, config, call_ollama_fn)
