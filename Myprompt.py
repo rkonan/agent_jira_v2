@@ -1,0 +1,18 @@
+6. nav_date_reel
+- Retourne la date de valorisation / date de NAV si elle est présente dans le ticket
+- Format de sortie obligatoire : YYYY-MM-DD
+- Formats d’entrée possibles à reconnaître :
+  - YYYY-MM-DD, exemple 2026-03-05
+  - DD/MM/YYYY, exemple 05/03/2026
+  - DD.MM.YYYY, exemple 05.03.2026
+  - DD.MM.YY, exemple 31.12.25
+  - DD/MM/YY, exemple 31/12/25
+- Conversion attendue :
+  - 2026-03-05 -> 2026-03-05
+  - 05/03/2026 -> 2026-03-05
+  - 05.03.2026 -> 2026-03-05
+  - 31.12.25 -> 2025-12-31
+  - 31/12/25 -> 2025-12-31
+- Si plusieurs dates sont présentes, retourne la date explicitement liée à la NAV, à la valorisation, à la clôture ou à la performance du ticket
+- Ne retourne pas une date de commentaire, une date d’email ou une date système si elle n’est pas liée au sujet du ticket
+- Si aucune date de NAV / valorisation n’est identifiable avec suffisamment de certitude, retourne ""
