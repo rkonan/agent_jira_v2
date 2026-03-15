@@ -1,0 +1,81 @@
+<View>
+  <Header value="Ticket ID"/>
+  <Text name="ticket_id" value="$ticket_id"/>
+
+  <Header value="Projet"/>
+  <Text name="project_key" value="$project_key"/>
+
+  <Header value="Statut"/>
+  <Text name="status" value="$status"/>
+
+  <Header value="Issue type Jira"/>
+  <Text name="issue_type" value="$issue_type"/>
+
+  <Header value="Labels Jira"/>
+  <Text name="labels_joined" value="$labels_joined"/>
+
+  <Header value="Commentaires"/>
+  <Text name="comments_joined" value="$comments_joined"/>
+
+  <Header value="Texte complet du ticket"/>
+  <Text name="ticket_text" value="$ticket_text"/>
+
+  <Header value="Ticket exploitable"/>
+  <Choices name="is_ticket_exploitable" toName="ticket_text" choice="single-radio">
+    <Choice value="yes"/>
+    <Choice value="no"/>
+  </Choices>
+
+  <Header value="Scope réel"/>
+  <Choices name="scope_reel" toName="ticket_text" choice="single-radio">
+    <Choice value="in_scope"/>
+    <Choice value="out_scope"/>
+  </Choices>
+
+  <Header value="Issue type réel"/>
+  <Choices name="issue_type_reel" toName="ticket_text" choice="single-radio">
+    <Choice value="action_request"/>
+    <Choice value="question"/>
+    <Choice value="incident"/>
+    <Choice value="analyse"/>
+    <Choice value="information"/>
+    <Choice value="autre"/>
+  </Choices>
+
+  <Header value="Request type réel"/>
+  <Choices name="request_type_reel" toName="ticket_text" choice="multiple">
+    <Choice value="nav_force"/>
+    <Choice value="nav_analysis"/>
+    <Choice value="performance_explain"/>
+    <Choice value="data_check"/>
+    <Choice value="pricing_check"/>
+    <Choice value="positions_check"/>
+    <Choice value="fx_check"/>
+    <Choice value="cash_check"/>
+    <Choice value="accounting_check"/>
+    <Choice value="other"/>
+  </Choices>
+
+  <Header value="Tool réel"/>
+  <Choices name="tool_reel" toName="ticket_text" choice="multiple">
+    <Choice value="nav_tool"/>
+    <Choice value="positions_tool"/>
+    <Choice value="performance_tool"/>
+    <Choice value="pricing_tool"/>
+    <Choice value="fx_tool"/>
+    <Choice value="accounting_tool"/>
+    <Choice value="mail_reply_tool"/>
+    <Choice value="other"/>
+  </Choices>
+
+  <Header value="Resolution category"/>
+  <Choices name="resolution_category" toName="ticket_text" choice="single-radio">
+    <Choice value="analyse"/>
+    <Choice value="correction"/>
+    <Choice value="explication_client"/>
+    <Choice value="incident_technique"/>
+    <Choice value="redirection"/>
+    <Choice value="non_resolu"/>
+    <Choice value="other"/>
+  </Choices>
+</View>
